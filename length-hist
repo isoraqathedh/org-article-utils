@@ -1,0 +1,22 @@
+#!/bin/zsh
+
+# Header
+echo -n "date"
+for i in "$@"; do
+    echo -n ",\"${i:t}\""
+done
+echo
+
+# Now
+date +"%Y-%m-%d %H:%M:%S %z," | tr -d '\n'
+wc -m "$@" | sed "\$d" | awk -F ' ' "{print \$1}" | xargs echo | tr ' ' ','
+
+# History
+git rev-list HEAD -- "$@" | while read cid; do
+    git log -1 "--pretty=%ci" $cid | tr -d '\n'
+    for i in "$@"; do
+        echo -n ','
+        git cat-file blob "$cid:${i:t}" 2>/dev/null | wc -m | tr -d '\n'
+    done
+    echo
+done

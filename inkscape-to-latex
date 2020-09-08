@@ -1,0 +1,8 @@
+#!/bin/zsh
+
+for i in "$@"; do
+    inkscape -D -z --file="$i" --export-pdf="${1%.svg}.pdf" --export-latex
+
+    # Also add on the new Emacs cookie
+    sed -i '1 i\%% -*- tex -*-' "${i%.svg}.pdf_tex"
+done
