@@ -1,0 +1,6 @@
+#!/bin/zsh
+
+here=${0:a:h}
+yq -r '."char-length-files" | join("\n")' graph-info.yaml |
+    xargs $here/length-hist |
+    gnuplot -p $here/length-hist.gp

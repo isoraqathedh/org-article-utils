@@ -1,5 +1,3 @@
-# -*- gnuplot -*-
-
 # For stacked chart variant
 firstcol=2
 cumulated(i)=((i>firstcol)?column(i)+cumulated(i-1):(i==firstcol)?column(i):1/0)

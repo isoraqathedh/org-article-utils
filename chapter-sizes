@@ -1,0 +1,11 @@
+#!/bin/zsh
+
+yq -r '[.body[0], .body[1]] | join(" ")' graph-info.yaml | read min max
+
+here=${0:a:h}
+texcount -q -utf8 -sub=chapter \
+         -template="{SUB?{SUM}={TITLE}\n?SUB}\n" \
+         $(yq -r '."word-length-file"' graph-info.yaml) 2>/dev/null |
+    awk -F= -f $here/texcount-proc.awk |
+    sed 's/\\textsubscript/_/;s/&/\\&/' |
+    gnuplot -e "start=$min; end=$max" -p $here/chapter-sizes.gp
