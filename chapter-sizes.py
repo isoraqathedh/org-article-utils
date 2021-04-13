@@ -127,7 +127,7 @@ def plot_data(data):
     axes.get_legend().remove()
     axes.set_title("Length of the Drsk grammar by chapter")
     axes.axvspan(-0.5, 1.5, alpha=0.2, color="#000000", zorder=-999)
-    axes.axvspan(36.5, 44.5, alpha=0.2, color="#000000", zorder=-999)
+    axes.axvspan(36.5, 45.5, alpha=0.2, color="#000000", zorder=-999)
     fig = axes.get_figure()
     out = os.getcwd() + "/chapter-lengths.svg"
     if args.verbose:
