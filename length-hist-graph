@@ -1,6 +1,10 @@
 #!/bin/zsh
 
+if [[ ! -z $1 ]]; then
+   file=$1
+fi
+
 here=${0:a:h}
 yq -r '."char-length-files" | join("\n")' graph-info.yaml |
     xargs $here/length-hist |
-    gnuplot -p $here/length-hist.gp
+    gnuplot -p -c $here/length-hist.gp $file
