@@ -9,7 +9,7 @@ fi
 here=${0:a:h}
 texcount -q -utf8 -sub=chapter \
          -template="{SUB?{SUM}={TITLE}\n?SUB}\n" \
-         $(yq -r '."word-length-file"' graph-info.yaml) 2>/dev/null |
+         $(yq -r '."word-length-file"' graph-info.yaml) |
     awk -F= -f $here/texcount-proc.awk |
     sed 's/\\textsubscript/_/;s/&/\\&/' |
     gnuplot -p -c $here/chapter-sizes.gp $min $max $file
