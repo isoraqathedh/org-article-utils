@@ -25,10 +25,12 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 import sys
 
+root = subprocess.run(
+    ['git', 'rev-parse', '--show-toplevel'],
+    stdout=subprocess.PIPE).stdout.decode('utf-8').rstrip()
+
 def get_keyfile():
-    return subprocess.run(
-        ['git', 'rev-parse', '--show-toplevel'],
-        stdout=subprocess.PIPE).stdout.decode('utf-8').rstrip() + "/key-files.txt"
+    return root + "/key-files.txt"
 
 here = os.path.dirname(os.path.abspath(__file__))
 parser = argparse.ArgumentParser(
@@ -125,5 +127,5 @@ def plot_data(data, args):
 if __name__ == "__main__":
     if args.keyfile:
         with open(args.keyfile) as f:
-            keyfiles = [i for i in f.read().split("\n") if i]
+            keyfiles = yaml.load(f)["key-files"]
     plot_data(parse_data(get_stats(args.files + keyfiles)), args)
